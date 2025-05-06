@@ -43,13 +43,12 @@ jobs:
         with:
           os: ${{ runner.os }}
 
+
       - name: e2e/install-node-dependencies
         run: |
-             npm ci
-             cd e2e
-             npm ci
-             npm install node-abi@latest --save-dev
-             npx electron-rebuild -f -w robotjs
+          npm ci
+          cd e2e && npm ci
+          npx electron-rebuild -f -w robotjs --module-dir ../
 
 
       - name: e2e/run-playright-tests-linux
