@@ -6,74 +6,12 @@ jobs:
   e2e:
     name: e2e-on-ubuntu-latest
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-    outputs:
-      NEW_FAILURES_LINUX: ${{ steps.analyze-flaky-tests.outputs.NEW_FAILURES_LINUX }}
-      NEW_FAILURES_MACOS: ${{ steps.analyze-flaky-tests.outputs.NEW_FAILURES_MACOS }}
-      NEW_FAILURES_WINDOWS: ${{ steps.analyze-flaky-tests.outputs.NEW_FAILURES_WINDOWS }}
-      REPORT_LINK_LINUX: ${{ steps.analyze-flaky-tests.outputs.REPORT_LINK_LINUX }}
-      REPORT_LINK_MACOS: ${{ steps.analyze-flaky-tests.outputs.REPORT_LINK_MACOS }}
-      REPORT_LINK_WINDOWS: ${{ steps.analyze-flaky-tests.outputs.REPORT_LINK_WINDOWS }}
-      STATUS_LINUX: ${{ steps.analyze-flaky-tests.outputs.STATUS_LINUX }}
-      STATUS_WINDOWS: ${{ steps.analyze-flaky-tests.outputs.STATUS_WINDOWS }}
-      STATUS_MACOS: ${{ steps.analyze-flaky-tests.outputs.STATUS_MACOS }}
+    
     steps:
-      - name: e2e/set-required-variables
-        id: variables
-        run: |
-          RUNNER_OS=$(echo "${{ runner.os }}" | tr '[:upper:]' '[:lower:]')
-          echo "RUNNER_OS=${RUNNER_OS}" >> $GITHUB_ENV
-          
-          # Define build type and suffix
-          case "${{ github.event_name }}" in
-            "pull_request")
-              echo "BUILD_SUFFIX=desktop-pr-${RUNNER_OS}" >> $GITHUB_OUTPUT
-              echo "TYPE=PR" >> $GITHUB_ENV
-              ;;
-            "workflow_dispatch")
-              if ${{ inputs.cmt }}; then
-                echo "BUILD_SUFFIX=desktop-release-${RUNNER_OS}" >> $GITHUB_OUTPUT
-                echo "TYPE=CMT" >> $GITHUB_ENV
-                echo "ZEPHYR_ENABLE=true" >> $GITHUB_ENV
-                echo "ZEPHYR_FOLDER_${RUNNER_OS^^}_REPORT=${{ 
-                  runner.os == 'Linux' && '12358649' || 
-                  runner.os == 'macOS' && '12358650' || 
-                  '12358651' 
-                }}" >> $GITHUB_ENV
-              else
-                echo "BUILD_SUFFIX=desktop-manual-trigger-${RUNNER_OS}" >> $GITHUB_OUTPUT
-                echo "TYPE=MANUAL" >> $GITHUB_ENV
-              fi
-              ;;
-            "push")
-              if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
-                echo "BUILD_SUFFIX=desktop-master-push-${RUNNER_OS}" >> $GITHUB_OUTPUT
-                echo "TYPE=MASTER" >> $GITHUB_ENV
-                echo "ZEPHYR_ENABLE=true" >> $GITHUB_ENV
-              fi
-              ;;
-          esac
-          
-          if ${{ inputs.nightly }}; then
-            echo "BUILD_SUFFIX=desktop-nightly-${RUNNER_OS}" >> $GITHUB_OUTPUT
-            echo "TYPE=NIGHTLY" >> $GITHUB_ENV
-            echo "ZEPHYR_ENABLE=true" >> $GITHUB_ENV
-            echo "ZEPHYR_FOLDER_${RUNNER_OS^^}_REPORT=${{ 
-              runner.os == 'Linux' && '12363689' || 
-              runner.os == 'macOS' && '12363687' || 
-              '12363690' 
-            }}" >> $GITHUB_ENV
-          fi
-
-      - name: e2e/set-build-id
-        run: echo "BUILD_ID=${{ github.run_id }}-${{ steps.variables.outputs.BUILD_SUFFIX }}" >> $GITHUB_ENV
 
       - name: e2e/checkout-repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-        with:
-          ref: ${{ inputs.DESKTOP_VERSION }}
+
 
       - name: e2e/setup-node
         uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
