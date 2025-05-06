@@ -46,11 +46,16 @@ jobs:
 
       - name: e2e/install-node-dependencies
         run: |
-          npm ci
-          cd e2e && npm ci
-          npm install electron@34 --save-dev
-          npm install node-abi@v4.8.0 --save-dev
-          npx electron-rebuild --platform=${{ env.RUNNER_OS }} -f -w robotjs --module-dir ../
+              # Clean npm cache and remove old modules to ensure no conflicts
+              rm -rf node_modules
+              rm package-lock.json
+              npm cache clean --force
+
+    
+              npm ci
+              cd e2e && npm ci
+              npx electron-rebuild --platform=${{ env.RUNNER_OS }} -f  -w robotjs --module-dir ../
+
 
 
 
