@@ -48,7 +48,7 @@ jobs:
         run: |
           npm ci
           cd e2e && npm ci
-          npx electron-rebuild -f -w robotjs --module-dir ../
+          npx electron-rebuild  -f -w robotjs --module-dir ../
 
 
       - name: e2e/run-playright-tests-linux
