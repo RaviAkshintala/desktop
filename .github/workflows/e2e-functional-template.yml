@@ -4,8 +4,8 @@ on: [push, pull_request]
 
 jobs:
   e2e:
-    name: e2e-on-${{ inputs.runs-on }}
-    runs-on: ${{ inputs.runs-on }}
+    name: e2e-on-ubuntu-latest
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
