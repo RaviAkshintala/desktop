@@ -54,8 +54,7 @@ jobs:
                cd ../../..
 
               
-               cd e2e
-               npm ci
+              
      
                npx electron-rebuild -f -w robotjs --module-dir ../
 
