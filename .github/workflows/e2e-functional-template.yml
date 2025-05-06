@@ -48,7 +48,7 @@ jobs:
         run: |
           npm ci
           cd e2e && npm ci
-          npx electron-rebuild --platform=${{ env.RUNNER_OS }} -f -t prod,optional,dev -w robotjs --module-dir ../
+          npx electron-rebuild --platform=${{ env.RUNNER_OS }} -f -w robotjs --module-dir ../
 
 
 
