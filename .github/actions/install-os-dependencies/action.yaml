@@ -16,32 +16,22 @@ runs:
         wget -qO - https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_22.04/Release.key | sudo apt-key add -
         wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.20.1/yq_linux_amd64 && chmod a+x /usr/local/bin/yq
         sudo apt-get update || true
-        sudo apt-get install -y \
-          ca-certificates \
-          libxtst-dev \
-          libpng++-dev \
-          gcc-aarch64-linux-gnu \
-          g++-aarch64-linux-gnu \
-          jq \
-          icnsutils \
-          graphicsmagick \
-          tzdata \
-          xsel \
-          xvfb \
-          libgtk-3-0 \
-          libnss3 \
-          libxss1 \
-          libasound2
-          libx11-xcb1 \
-          libxcomposite1 \
-          libxcursor1 \
-          libxdamage1 \
-          libxi6 \
-          libxrandr2 \
-          libgbm1 \
-          libxinerama1 \
-          libatk-bridge2.0-0
-
+        sudo apt-get install \
+        build-essential \
+        clang \
+        libdbus-1-dev \
+        libgtk-3-dev \
+        libnotify-dev \
+        libasound2-dev \
+        libcap-dev \
+        libcups2-dev \
+        libxtst-dev \
+        libxss1 \
+        libnss3-dev \
+        gcc-multilib \
+        g++-multilib curl \
+                       
+        gperf bison python3-dbusmock openjdk-8-jre
 
     - name: Install macOS Dependencies
       if: inputs.os == 'macOS'
