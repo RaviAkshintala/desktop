@@ -49,6 +49,7 @@ jobs:
           npm ci
           cd e2e && npm ci
           npm install electron@34 --save-dev
+          npm install node-abi@v4.8.0 --save-dev
           npx electron-rebuild --platform=${{ env.RUNNER_OS }} -f -w robotjs --module-dir ../
 
 
