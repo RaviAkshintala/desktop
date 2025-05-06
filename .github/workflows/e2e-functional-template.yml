@@ -47,7 +47,8 @@ jobs:
         run: |
           npm ci
           cd e2e && npm ci
-          npx electron-rebuild --platform=${{ env.RUNNER_OS }} -f -t prod,optional,dev -w robotjs --module-dir ../
+          npx electron-rebuild --platform=${{ env.RUNNER_OS }} -f ...
+
 
       - name: e2e/run-playright-tests-linux
         if: runner.os == 'Linux'
