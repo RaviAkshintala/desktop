@@ -46,17 +46,10 @@ jobs:
 
       - name: e2e/install-node-dependencies
         run: |
-   
-               npm ci   
-               cd node_modules/@electron/rebuild
-               rm -rf node_modules/node-abi
-               npm install node-abi@latest
-               cd ../../..
+          npm ci
+          cd e2e && npm ci
+          npx electron-rebuild --platform=${{ env.RUNNER_OS }} -f -w robotjs --module-dir ../
 
-              
-              
-     
-               npx electron-rebuild -f -w robotjs --module-dir ../
 
 
 
