@@ -1,6 +1,9 @@
 name: E2E Functional Tests Template
 
 on:
+  push:
+  pull_request:
+  workflow_dispatch:
   workflow_call:
     inputs:
       MM_TEST_SERVER_URL:
