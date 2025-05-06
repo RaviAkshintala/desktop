@@ -46,15 +46,10 @@ jobs:
 
       - name: e2e/install-node-dependencies
         run: |
-              # Clean npm cache and remove old modules to ensure no conflicts
-              rm -rf node_modules
-              rm package-lock.json
-              npm cache clean --force
+          npm ci
+          cd e2e && npm ci
+          npx electron-rebuild --platform=${{ env.RUNNER_OS }} -f -t prod,optional,dev -w robotjs --module-dir ../
 
-    
-              npm ci
-              cd e2e && npm ci
-              npx electron-rebuild --platform=${{ env.RUNNER_OS }} -f  -w robotjs --module-dir ../
 
 
 
